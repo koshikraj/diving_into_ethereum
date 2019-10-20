@@ -10,28 +10,6 @@ import contract_artifacts from './contracts/Hello.json';
 
 
 
-String.prototype.hexEncode = function(){
-    let hex, i;
-
-    let result = "";
-    for (i=0; i<this.length; i++) {
-        hex = this.charCodeAt(i).toString(16);
-        result += (hex).slice(-4);
-    }
-
-    return result
-};
-
-String.prototype.hexDecode = function(){
-    let j;
-    let hexes = this.match(/.{1,2}/g) || [];
-    let back = "";
-    for(j = 0; j<hexes.length; j++) {
-        back += String.fromCharCode(parseInt(hexes[j], 16));
-    }
-
-    return back;
-};
 
 
 class Main extends Component {
@@ -106,7 +84,7 @@ class Main extends Component {
 
                 contractInstance.queryName( {from: user_address}).then((c)=>{
                     if (c) {
-                        this.setState({userName: c.toLocaleString().slice(2).hexDecode()})
+                        this.setState({userName: c.toLocaleString()})
                     }
                 });
 
@@ -134,7 +112,7 @@ class Main extends Component {
 }
     handleSubmit() {
 
-        this.storeName("0x"+ this.state.userName.hexEncode());
+        this.storeName(this.state.userName);
         this.setState({ show: false });
     }
 
@@ -146,7 +124,7 @@ class Main extends Component {
                 "padding": 100}}>
 
                 <Card className="text-center">
-                    <Card.Header>Greeting! Simple Hello Word DApp</Card.Header>
+                    <Card.Header>Greetings! Simple Hello Word DApp</Card.Header>
                     <Card.Body>
                         <Card.Title><Badge variant="info">Hello!</Badge></Card.Title>
                         <Card.Text>
